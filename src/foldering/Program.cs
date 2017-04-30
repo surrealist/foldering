@@ -37,7 +37,7 @@ namespace foldering
       Console.WriteLine($"Source:\r\n {source.ToUpper()}");
       foreach (var f in Directory.EnumerateFiles(source))
       {
-        string key = "0000000000";
+        string key = "";
         if (f.Length >= expectedLength)
         {
           key = Path.GetFileName(f).Substring(startIndex, length);
@@ -106,14 +106,7 @@ namespace foldering
 
       Console.WriteLine();
       Console.WriteLine($"Total {sum:n0} files moved");
-    }
-
-    private static bool IsDate(string key)
-    {
-      return key.Length >= 7
-             && int.TryParse(key.Substring(0, 4), out int y)
-             && int.TryParse(key.Substring(6), out int m);
-    }
+    } 
 
   }
 }
