@@ -41,7 +41,7 @@ namespace foldering
         if (f.Length >= expectedLength)
         {
           key = Path.GetFileName(f).Substring(startIndex, length);
-        } 
+        }
 
         if (!items.ContainsKey(key))
         {
@@ -50,25 +50,33 @@ namespace foldering
         items[key].Add(f);
         count++;
       }
-      Console.WriteLine($" Found {count:n0} files");
+
+      if (count == 0)
+      {
+        Console.WriteLine(" It's empty");
+      }
+      else
+      {
+        Console.WriteLine($" Found {count:n0} files");
+      }
       Console.WriteLine();
 
       Console.WriteLine($"Destination:\r\n {dest.ToUpper()}");
       foreach (var item in items)
       {
-        Console.Write($@" [{item.Key}] ");
+        Console.Write($" [{item.Key}] ");
         var destFolder = Path.Combine(dest, item.Key);
         if (!Directory.Exists(destFolder))
         {
           if (!isTest)
           {
             Directory.CreateDirectory(destFolder);
+            Console.Write("created and ");
           }
-          Console.Write("+ ");
-        }
-        else
-        {
-          Console.Write("  ");
+          else
+          {
+            Console.Write("will be created and ");
+          }
         }
 
         count = 0;
@@ -101,12 +109,20 @@ namespace foldering
           }
         }
         Console.SetCursorPosition(left, Console.CursorTop);
-        Console.WriteLine($"{count:n0} files moved {(skip > 0 ? $"({skip:n0} skipped)" : "")}");
+        Console.WriteLine($"{count:n0} files {(isTest ? "will be " : "")}moved " +
+                          $"{(skip > 0 ? $"({skip:n0} skipped)" : "")}");
       }
 
       Console.WriteLine();
-      Console.WriteLine($"Total {sum:n0} files moved");
-    } 
+      if (sum == 0)
+      {
+        Console.WriteLine("No files moved");
+      }
+      else
+      {
+        Console.WriteLine($"Total {sum:n0} files {(isTest ? "will be " : "")}moved");
+      }
+    }
 
   }
 }
